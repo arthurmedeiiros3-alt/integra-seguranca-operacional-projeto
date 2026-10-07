@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>INTEGRA — Segurança Operacional Conectada</title>
+<style>
+:root{
+  --ink:#102a33; --ink-2:#1d4150; --bg:#edf0f1; --panel:#fff; --line:#d3dce0;
+  --text:#15262c; --muted:#5b6e76; --accent:#0b6f8f; --accent-bg:#e6f3f8;
+  --ok:#146c43; --ok-bg:#e0f1e8; --bad:#a8261f; --bad-bg:#fbe4e2;
+  --warn:#7f4c00; --warn-bg:#fff0cf; --warn-line:#e6b34a;
+  --font-display:Bahnschrift,"DIN Alternate","Franklin Gothic Medium","Segoe UI",system-ui,sans-serif;
+  --font-body:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:15px/1.5 var(--font-body);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #2b9bc2;outline-offset:2px}
+h1,h2,h3{font-family:var(--font-display);margin:0;letter-spacing:.005em}
+
+/* ---------- Login ---------- */
+#login{min-height:100vh;display:grid;place-items:center;background:var(--ink);padding:24px}
+.login-box{background:#fff;border-radius:10px;width:100%;max-width:410px;padding:34px 34px 28px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand b{font:700 24px/1 var(--font-display);letter-spacing:.06em}
+.brand small{display:block;font-size:11.5px;color:var(--muted);letter-spacing:.01em;margin-top:3px}
+.login-box h1{font-size:26px;margin:26px 0 4px}
+.login-box p{margin:0 0 20px;color:var(--muted)}
+.field{display:block;margin-bottom:14px}
+.field span{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:6px;font:inherit;background:#f7f9fa}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:7px;padding:11px 18px;font-weight:600;cursor:pointer;background:var(--accent);color:#fff}
+.btn:hover{background:#095c78}
+.btn:disabled{background:#b8c6cc;cursor:not-allowed}
+.btn.block{width:100%;margin-top:6px}
+.btn.ghost{background:#fff;color:var(--text);border:1.5px solid var(--line)}
+.btn.ghost:hover{background:#f2f5f6}
+.login-note{margin:16px 0 0;font-size:12.5px;color:var(--muted);text-align:center}
+
+/* ---------- App shell ---------- */
+#app{display:grid;grid-template-columns:244px 1fr;min-height:100vh}
+.side{background:var(--ink);color:#c5dae1;padding:22px 14px;display:flex;flex-direction:column;gap:26px;position:sticky;top:0;height:100vh}
+.side .brand{padding:0 8px;color:#fff}
+.side .brand small{color:#8fb0bc}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav button{display:flex;align-items:center;gap:11px;width:100%;background:none;border:0;padding:10px 12px;border-radius:7px;cursor:pointer;text-align:left;color:inherit}
+.nav button:hover{background:#18394a}
+.nav button[aria-current="page"]{background:var(--ink-2);color:#fff;font-weight:600}
+.nav svg{flex:none}
+.who{margin-top:auto;padding:12px;border-top:1px solid #254a59;display:flex;gap:10px;align-items:center;font-size:13px}
+.who .av{width:34px;height:34px;border-radius:50%;background:#2f6275;color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+.who b{display:block;color:#fff;font-weight:600}
+main{padding:30px 38px 56px;max-width:1320px;width:100%}
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.page-head h1{font-size:30px}
+.page-head p{margin:2px 0 0;color:var(--muted)}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:9px}
+.panel-h{padding:15px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.panel-h h2{font-size:18px}
+.panel-b{padding:18px 20px}
+
+/* ---------- Dashboard ---------- */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);margin-bottom:22px}
+.stat{padding:18px 22px;border-left:1px solid var(--line)}
+.stat:first-child{border-left:0}
+.stat b{display:block;font:700 40px/1.05 var(--font-display)}
+.stat span{color:var(--muted);font-size:13.5px}
+.stat.s-ok b{color:var(--ok)} .stat.s-bad b{color:var(--bad)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.list{list-style:none;margin:0;padding:0}
+.list li{border-top:1px solid var(--line)}
+.list li:first-child{border-top:0}
+.list button,.list .li{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;padding:12px 20px;background:none;border:0;text-align:left}
+.list button{cursor:pointer}
+.list button:hover{background:#f3f7f8}
+.list small{display:block;color:var(--muted)}
+.empty{padding:26px 20px;color:var(--muted)}
+
+/* ---------- Verificação ---------- */
+.vgrid{display:grid;grid-template-columns:372px 1fr;gap:24px;align-items:start}
+.step{margin-bottom:20px}
+.step h3{font-size:17px;display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.step .n{width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font:700 13px var(--font-body)}
+.pick{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;cursor:pointer}
+.pick:hover{border-color:#9db8c2}
+.pick[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-bg);box-shadow:inset 4px 0 0 var(--accent)}
+.pick .av{flex:none;width:38px;height:38px;border-radius:50%;background:var(--ink-2);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+.pick b{display:block;font-weight:600}
+.pick small{color:var(--muted);display:block;line-height:1.35}
+.req-prev{background:#f6f9fa;border:1px dashed #b5c5cc;border-radius:8px;padding:12px 14px;font-size:13.5px}
+.req-prev p{margin:0 0 4px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:5px;padding:2px 8px;font-size:13px;font-weight:600}
+.chip.bad{background:var(--bad-bg);border-color:#efb7b3;color:var(--bad)}
+.req-prev .chips+p{margin-top:10px}
+
+.empty-state{padding:56px 30px;text-align:center;color:var(--muted)}
+.empty-state svg{opacity:.55;margin-bottom:10px}
+.empty-state b{display:block;color:var(--text);font:600 19px var(--font-display);margin-bottom:4px}
+
+.verdict{border-radius:11px;padding:24px 28px;display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;color:#fff;margin-bottom:14px}
+.verdict.apto{background:var(--ok)}
+.verdict.nao{background:var(--bad)}
+.verdict.scanning{background:#dfe6e9;color:var(--muted)}
+.verdict.stamp{animation:stamp .32s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes stamp{from{transform:scale(1.035);opacity:.4}to{transform:none;opacity:1}}
+.v-icon{width:76px;height:76px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center}
+.scanning .v-icon{background:#cdd8dc}
+.v-word{font:800 66px/1 var(--font-display);letter-spacing:.01em}
+.scanning .v-word{font-size:30px;font-weight:600}
+.v-sub{font-size:16.5px;margin-top:6px;opacity:.96}
+.v-meta{font-size:13.5px;line-height:1.55;text-align:right;opacity:.95}
+.v-meta strong{font:700 26px/1.1 var(--font-display);display:block}
+
+.block-list{background:var(--bad-bg);border:1px solid #efb7b3;border-radius:9px;padding:12px 16px;margin-bottom:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.block-list>span{font-weight:600;color:var(--bad)}
+.alert{display:flex;gap:12px;align-items:flex-start;background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn);border-radius:9px;padding:12px 16px;margin-bottom:14px}
+.alert svg{flex:none;margin-top:2px}
+.alert b{display:block}
+
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:11px 16px;text-align:left;vertical-align:middle}
+thead th{font-size:12.5px;font-weight:600;color:var(--muted);border-bottom:1px solid var(--line);background:#f6f9fa}
+tr.grp th{background:#eef3f5;font:600 14.5px var(--font-display);padding:9px 16px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+tbody tr.row td{border-bottom:1px solid #e6ecee}
+.rq{font-weight:600}
+.rd{font-size:13px;color:var(--muted)}
+tr.row td:first-child{box-shadow:inset 4px 0 0 transparent}
+tr.row.s-bad td{background:#fff6f5}
+tr.row.s-bad td:first-child{box-shadow:inset 4px 0 0 var(--bad)}
+tr.row.s-warn td{background:#fffaf0}
+tr.row.s-warn td:first-child{box-shadow:inset 4px 0 0 var(--warn-line)}
+tr.row.s-ok td:first-child{box-shadow:inset 4px 0 0 #7cc5a0}
+.badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 11px 3px 8px;font-size:13.5px;font-weight:600;white-space:nowrap}
+.b-ok{background:var(--ok-bg);color:var(--ok)}
+.b-warn{background:var(--warn-bg);color:var(--warn)}
+.b-bad{background:var(--bad-bg);color:var(--bad)}
+.b-pend{background:#e6ecee;color:var(--muted)}
+.spin{width:13px;height:13px;border:2px solid #b4c3c9;border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- Solicitações ---------- */
+.btn.mini{padding:5px 11px;font-size:13px;border-radius:6px;white-space:nowrap}
+.b-req{background:#e3eef6;color:#1c4f6e}
+.chip.sent{background:#e3eef6;border-color:#a9c5d8;color:#1c4f6e}
+tr.row.s-req td{background:#f4f9fc}
+tr.row.s-req td:first-child{box-shadow:inset 4px 0 0 var(--accent)}
+.block-list .note{flex-basis:100%;margin:0;font-size:13.5px;color:var(--bad)}
+.pill{margin-left:auto;background:#3fc2a9;color:#06231d;font-weight:700;font-size:12px;border-radius:999px;padding:0 8px;min-width:22px;text-align:center}
+.modal-back{position:fixed;inset:0;background:rgba(10,28,35,.55);display:grid;place-items:center;padding:20px;z-index:50}
+.modal{background:#fff;border-radius:11px;width:100%;max-width:490px;padding:26px 26px 22px;max-height:calc(100vh - 40px);overflow:auto}
+.modal h2{font-size:25px}
+.modal .lead{margin:4px 0 16px;color:var(--muted)}
+.m-dl{margin:0 0 16px;border:1px solid var(--line);border-radius:8px}
+.m-dl div{display:flex;gap:12px;padding:8px 14px;border-top:1px solid var(--line);font-size:14px}
+.m-dl div:first-child{border-top:0}
+.m-dl dt{width:118px;flex:none;color:var(--muted)}
+.m-dl dd{margin:0;font-weight:600}
+.m-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
+.toast{position:fixed;right:22px;bottom:22px;z-index:60;background:var(--ink);color:#fff;border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:center;max-width:460px;box-shadow:0 8px 28px rgba(0,0,0,.28);animation:rise .28s ease-out}
+.toast .t-ic{flex:none;width:28px;height:28px;border-radius:50%;background:#2aa383;display:grid;place-items:center}
+.toast b{display:block}
+.toast span:not(.t-ic){display:block;font-size:13px;color:#b9d0d8}
+.toast button{flex:none;background:#fff;color:var(--ink);border:0;border-radius:6px;padding:7px 12px;font-weight:600;cursor:pointer}
+@keyframes rise{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+
+@media (max-width:1080px){
+  .vgrid{grid-template-columns:1fr}
+  .cols{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .stat:nth-child(4){border-left:0}
+}
+@media (max-width:860px){
+  #app{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px;padding:12px}
+  .nav{flex-direction:row;flex-wrap:wrap}
+  .who{display:none}
+  main{padding:20px 16px 40px}
+  .verdict{grid-template-columns:1fr;text-align:left}
+  .v-meta{text-align:left}
+  .v-word{font-size:52px}
+}
+@media (prefers-reduced-motion:reduce){
+  .verdict.stamp,.spin,.toast{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div id="login">
+  <div class="login-box">
+    <div class="brand">
+      <svg width="38" height="38" viewBox="0 0 32 32" aria-hidden="true"><path d="M8 9H24L16 24Z" fill="none" stroke="#0b6f8f" stroke-width="2" stroke-linejoin="round"/><circle cx="8" cy="9" r="4" fill="#0b6f8f"/><circle cx="24" cy="9" r="4" fill="#102a33"/><circle cx="16" cy="24" r="4" fill="#2aa38f"/></svg>
+      <div><b>INTEGRA</b><small>Segurança Operacional Conectada</small></div>
+    </div>
+    <h1>Entrar</h1>
+    <p>Acesse como profissional de SST ou supervisor.</p>
+    <label class="field"><span>E-mail</span><input type="text" value="supervisor.sst@integra.demo" aria-label="E-mail"></label>
+    <label class="field"><span>Senha</span><input type="password" value="demonstracao" aria-label="Senha"></label>
+    <button class="btn block" id="btn-login">Entrar como Supervisor de SST</button>
+    <p class="login-note">Ambiente de demonstração com dados fictícios.</p>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" hidden>
+  <aside class="side">
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><path d="M8 9H24L16 24Z" fill="none" stroke="#6fc3dc" stroke-width="2" stroke-linejoin="round"/><circle cx="8" cy="9" r="4" fill="#6fc3dc"/><circle cx="24" cy="9" r="4" fill="#fff"/><circle cx="16" cy="24" r="4" fill="#3fc2a9"/></svg>
+      <div><b style="font:700 21px/1 var(--font-display);letter-spacing:.06em">INTEGRA</b><small>Segurança Operacional Conectada</small></div>
+    </div>
+    <nav class="nav" aria-label="Principal">
+      <button data-view="dash" aria-current="page">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        Painel
+      </button>
+      <button data-view="verify">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
+        Verificação de Segurança
+      </button>
+      <button data-view="requests">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h4"/></svg>
+        Pendências
+        <span class="pill" id="nav-count" hidden>0</span>
+      </button>
+      <button data-view="history">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        Histórico
+      </button>
+    </nav>
+    <div class="who"><div class="av">SS</div><div><b>Supervisor de SST</b>Terminal portuário (demo)</div></div>
+  </aside>
+
+  <main>
+    <!-- Painel -->
+    <section id="view-dash">
+      <div class="page-head">
+        <div><h1>Painel de segurança operacional</h1><p id="today-label"></p></div>
+        <button class="btn" data-go="verify">Nova verificação</button>
+      </div>
+      <div class="panel stats" id="stats"></div>
+      <div class="cols">
+        <div class="panel">
+          <div class="panel-h"><h2>Documentos que exigem atenção</h2></div>
+          <ul class="list" id="attention"></ul>
+        </div>
+        <div class="panel">
+          <div class="panel-h"><h2>Últimas verificações</h2><button class="btn ghost" data-go="history" style="padding:6px 12px">Ver histórico</button></div>
+          <ul class="list" id="recent"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Verificação -->
+    <section id="view-verify" hidden>
+      <div class="page-head">
+        <div><h1>Verificação de Segurança</h1><p>Escolha o trabalhador e a atividade. O INTEGRA confere cada requisito antes da execução.</p></div>
+      </div>
+      <div class="vgrid">
+        <div class="panel"><div class="panel-b">
+          <div class="step"><h3><span class="n">1</span>Trabalhador</h3><div id="workers"></div></div>
+          <div class="step"><h3><span class="n">2</span>Atividade e frente de serviço</h3><div id="acts"></div><div id="req-prev"></div></div>
+          <button class="btn block" id="btn-verify" disabled>Verificar requisitos</button>
+        </div></div>
+        <div id="result"></div>
+      </div>
+    </section>
+
+    <!-- Pendências -->
+    <section id="view-requests" hidden>
+      <div class="page-head">
+        <div><h1>Pendências e solicitações</h1><p>Acompanhe o que precisa ser regularizado antes de liberar cada atividade.</p></div>
+        <button class="btn ghost" id="btn-clear-req">Limpar solicitações</button>
+      </div>
+      <div class="panel"><div class="tbl-wrap" id="reqs"></div></div>
+    </section>
+
+    <!-- Histórico -->
+    <section id="view-history" hidden>
+      <div class="page-head">
+        <div><h1>Histórico de verificações</h1><p>Registros desta sessão de demonstração.</p></div>
+        <button class="btn ghost" id="btn-clear">Limpar histórico</button>
+      </div>
+      <div class="panel"><div class="tbl-wrap" id="hist"></div></div>
+    </section>
+  </main>
+</div>
+
+<!-- Janela de confirmação -->
+<div class="modal-back" id="modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title" aria-describedby="m-lead">
+    <h2 id="m-title"></h2>
+    <p class="lead" id="m-lead">Confirme os dados. O gestor acompanha a solicitação na área de Pendências.</p>
+    <dl class="m-dl" id="m-dl"></dl>
+    <label class="field"><span>Prioridade</span><select id="m-prio"><option>Alta</option><option>Normal</option></select></label>
+    <label class="field"><span>Observação (opcional)</span><input type="text" id="m-note" maxlength="120" placeholder="Ex.: agendar atendimento ainda esta semana"></label>
+    <div class="m-actions"><button class="btn ghost" id="m-cancel">Cancelar</button><button class="btn" id="m-ok">Confirmar solicitação</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ===================== DADOS FICTÍCIOS ===================== */
+const DAY=86400000;
+const today=new Date(); today.setHours(0,0,0,0);
+const addDays=n=>new Date(today.getTime()+n*DAY);
+const fmt=d=>d.toLocaleDateString('pt-BR');
+const diff=d=>Math.round((d-today)/DAY);
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const plural=(n,a,b)=>n+' '+(n===1?a:b);
+const WARN_DAYS=30;
+
+const WORKER_REQS=[
+  {key:'nr35',name:'NR-35',desc:'Treinamento de trabalho em altura'},
+  {key:'hab',name:'Certificação/Habilitação',desc:'Habilitação para montagem de esquadrias e vidros'},
+  {key:'aso',name:'ASO',desc:'Atestado de Saúde Ocupacional'}
+];
+const FRONT_REQS=[
+  {key:'art',name:'ART',desc:'Anotação de Responsabilidade Técnica'},
+  {key:'apr',name:'APR',desc:'Análise Preliminar de Risco'},
+  {key:'pt',name:'PT',desc:'Permissão de Trabalho'},
+  {key:'resgate',name:'Plano de Resgate',desc:'Resgate em altura'},
+  {key:'anc',name:'Sistema de Ancoragem',desc:'Pontos de ancoragem inspecionados'}
+];
+
+const WORKERS=[
+  {id:'carlos',name:'Carlos Mendes',role:'Montador de fachadas',company:'Vidraça Norte Engenharia',
+   docs:{nr35:{ref:'NR35-0412',expires:addDays(240)},hab:{ref:'HAB-1187',expires:addDays(300)},aso:{ref:'ASO-8821',expires:addDays(160)}}},
+  {id:'marina',name:'Marina Souza',role:'Técnica de montagem',company:'Vidraça Norte Engenharia',
+   docs:{nr35:{ref:'NR35-0377',expires:addDays(180)},hab:{ref:'HAB-1093',expires:addDays(400)},aso:{ref:'ASO-7710',expires:addDays(-20)}}},
+  {id:'paulo',name:'Paulo Lima',role:'Auxiliar de montagem',company:'Estrutura Sul Serviços',
+   docs:{nr35:null,hab:{ref:'HAB-1250',expires:addDays(210)},aso:{ref:'ASO-9034',expires:addDays(90)}}},
+  {id:'ana',name:'Ana Beatriz Costa',role:'Encarregada de montagem',company:'Vidraça Norte Engenharia',
+   docs:{nr35:{ref:'NR35-0291',expires:addDays(120)},hab:{ref:'HAB-0988',expires:addDays(330)},aso:{ref:'ASO-8105',expires:addDays(12)}}}
+];
+
+const ACTIVITIES=[
+  {id:'a1',name:'Substituição de peles de vidro',front:'Torre B — Fachada norte',
+   worker:['nr35','hab','aso'],frontReq:['art','apr','pt','resgate','anc'],
+   docs:{
+     art:{ref:'ART-55012',expires:addDays(90)},
+     apr:{ref:'APR emitida hoje',expires:null,validity:'Válida no turno'},
+     pt:{ref:'PT do turno de hoje',expires:null,validity:'Válida no turno'},
+     resgate:{ref:'Plano rev. 03 aprovado',expires:null,validity:'Sem vencimento'},
+     anc:{ref:'Laudo de inspeção',expires:addDays(45)}
+   }},
+  {id:'a2',name:'Substituição de peles de vidro',front:'Torre C — Fachada sul',
+   worker:['nr35','hab','aso'],frontReq:['art','apr','pt','resgate','anc'],
+   docs:{
+     art:{ref:'ART-55013',expires:addDays(90)},
+     apr:{ref:'APR emitida hoje',expires:null,validity:'Válida no turno'},
+     pt:null,
+     resgate:null,
+     anc:{ref:'Laudo de inspeção',expires:addDays(45)}
+   }}
+];
+
+/* ===================== MOTOR DE VERIFICAÇÃO ===================== */
+function evalDoc(doc){
+  if(!doc) return {s:'absent',label:'Ausente',validity:'—',ref:'Nenhum registro'};
+  if(!doc.expires) return {s:'ok',label:'Atendido',validity:doc.validity||'Sem vencimento',ref:doc.ref};
+  const d=diff(doc.expires);
+  if(d<0) return {s:'expired',label:'Vencido',validity:'Venceu em '+fmt(doc.expires)+' (há '+plural(-d,'dia','dias')+')',ref:doc.ref,days:d,date:fmt(doc.expires)};
+  if(d<=WARN_DAYS) return {s:'expiring',label:d===0?'Vence hoje':'Vence em '+plural(d,'dia','dias'),validity:'Até '+fmt(doc.expires),ref:doc.ref,days:d,date:fmt(doc.expires)};
+  return {s:'ok',label:'Atendido',validity:'Até '+fmt(doc.expires),ref:doc.ref,days:d,date:fmt(doc.expires)};
+}
+
+function evaluate(w,a){
+  const items=[];
+  a.worker.forEach(k=>{const r=WORKER_REQS.find(x=>x.key===k);items.push({group:'w',...r,...evalDoc(w.docs[k])});});
+  a.frontReq.forEach(k=>{const r=FRONT_REQS.find(x=>x.key===k);items.push({group:'f',...r,...evalDoc(a.docs[k])});});
+  const blockers=items.filter(i=>i.s==='absent'||i.s==='expired');
+  const alerts=items.filter(i=>i.s==='expiring');
+  const met=items.length-blockers.length;
+  return {items,blockers,alerts,met,total:items.length,apto:blockers.length===0};
+}
+const pendLabel=i=>i.name+' — '+(i.s==='absent'?'AUSENTE':'VENCIDO');
+
+/* ===================== HISTÓRICO ===================== */
+const KEY='integra-demo-history-v1';
+let memHist=null;
+function loadHist(){
+  try{const raw=localStorage.getItem(KEY);if(raw!==null)return JSON.parse(raw);}catch(e){if(memHist)return memHist;}
+  if(memHist)return memHist;
+  const t=n=>{const d=new Date();d.setMinutes(d.getMinutes()-n);return d.getTime();};
+  const seed=[
+    {ts:t(95),w:'Ana Beatriz Costa',act:'Substituição de peles de vidro',front:'Torre B — Fachada norte',apto:true,pend:[],alerts:['ASO']},
+    {ts:t(140),w:'Paulo Lima',act:'Substituição de peles de vidro',front:'Torre B — Fachada norte',apto:false,pend:['NR-35 — AUSENTE'],alerts:[]},
+    {ts:t(210),w:'Carlos Mendes',act:'Substituição de peles de vidro',front:'Torre B — Fachada norte',apto:true,pend:[],alerts:[]}
+  ];
+  saveHist(seed);return seed;
+}
+function saveHist(h){memHist=h;try{localStorage.setItem(KEY,JSON.stringify(h));}catch(e){}}
+const timeOf=ts=>new Date(ts).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+const isToday=ts=>{const d=new Date(ts);d.setHours(0,0,0,0);return d.getTime()===today.getTime();};
+
+/* ===================== ÍCONES ===================== */
+const IC={
+  ok:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  bad:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  warn:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3L12 4z"/><path d="M12 10v4M12 17.2v.1"/></svg>',
+  clock:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
+  bigOk:'<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+  bigBad:'<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  shield:'<svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>'
+};
+function badge(i){
+  if(i.s==='ok') return '<span class="badge b-ok">'+IC.ok+'Atendido</span>';
+  if(i.s==='expiring') return '<span class="badge b-warn">'+IC.warn+i.label+'</span>';
+  return '<span class="badge b-bad">'+IC.bad+i.label+'</span>';
+}
+const initials=n=>n.split(' ').filter((_,i,a)=>i===0||i===a.length-1).map(p=>p[0]).join('');
+
+/* ===================== NAVEGAÇÃO ===================== */
+function show(view){
+  ['dash','verify','requests','history'].forEach(v=>{$('#view-'+v).hidden=(v!==view);});
+  $$('.nav button').forEach(b=>{if(b.dataset.view===view)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
+  if(view==='dash')renderDash();
+  if(view==='history')renderHist();
+  if(view==='requests')renderRequests();
+  window.scrollTo(0,0);
+}
+$$('.nav button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.view)));
+$$('[data-go]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.go)));
+$('#btn-login').addEventListener('click',()=>{$('#login').hidden=true;$('#app').hidden=false;show('dash');});
+
+/* ===================== PAINEL ===================== */
+function renderDash(){
+  $('#today-label').textContent=today.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const h=loadHist().filter(x=>isToday(x.ts));
+  const attention=[];
+  WORKERS.forEach(w=>WORKER_REQS.forEach(r=>{const e=evalDoc(w.docs[r.key]);if(e.s!=='ok')attention.push({w,r,e});}));
+  $('#stats').innerHTML=
+    '<div class="stat"><b>'+WORKERS.length+'</b><span>Trabalhadores cadastrados</span></div>'+
+    '<div class="stat"><b>'+h.length+'</b><span>Verificações hoje</span></div>'+
+    '<div class="stat s-ok"><b>'+h.filter(x=>x.apto).length+'</b><span>Aptos hoje</span></div>'+
+    '<div class="stat s-bad"><b>'+h.filter(x=>!x.apto).length+'</b><span>Não aptos hoje</span></div>'+
+    '<div class="stat"><b>'+loadReq().length+'</b><span>Solicitações abertas</span></div>';
+  $('#attention').innerHTML=attention.map((x,i)=>
+    '<li><button data-w="'+x.w.id+'"><div><b>'+x.w.name+'</b><small>'+x.r.name+' — '+x.e.validity+'</small></div>'+(findReq('w:'+x.w.id+':'+x.r.key)?reqBadge(findReq('w:'+x.w.id+':'+x.r.key)):badge({s:x.e.s,label:x.e.label}))+'</button></li>').join('')
+    ||'<li class="empty">Nenhum documento exige atenção.</li>';
+  $$('#attention button').forEach(b=>b.addEventListener('click',()=>{sel.w=b.dataset.w;show('verify');renderPickers();resetResult();}));
+  const recent=loadHist().slice().sort((a,b)=>b.ts-a.ts).slice(0,5);
+  $('#recent').innerHTML=recent.map(x=>
+    '<li><div class="li"><div><b>'+x.w+'</b><small>'+x.front+' — '+timeOf(x.ts)+'</small></div>'+
+    (x.apto?'<span class="badge b-ok">'+IC.ok+'APTO</span>':'<span class="badge b-bad">'+IC.bad+'NÃO APTO</span>')+'</div></li>').join('')
+    ||'<li class="empty">Nenhuma verificação ainda. Inicie uma nova verificação.</li>';
+}
+
+/* ===================== SOLICITAÇÕES ===================== */
+const RKEY='integra-demo-requests-v1';
+let memReq=null;
+function loadReq(){
+  try{const raw=localStorage.getItem(RKEY);if(raw!==null)return JSON.parse(raw);}catch(e){}
+  return memReq||[];
+}
+function saveReq(r){memReq=r;try{localStorage.setItem(RKEY,JSON.stringify(r));}catch(e){}}
+const findReq=k=>loadReq().find(x=>x.k===k);
+const cap=t=>t.charAt(0).toUpperCase()+t.slice(1);
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const dateOf=ts=>new Date(ts).toLocaleDateString('pt-BR');
+function reqBadge(req){return '<span class="badge b-req">'+IC.clock+cap(req.type)+' solicitada</span>';}
+function updateNavCount(){const n=loadReq().length;const p=$('#nav-count');p.textContent=n;p.hidden=(n===0);}
+let cur=null; // verificação em exibição: {w,a,r,rows}
+const reqKeyOf=it=>it.group==='w'?'w:'+cur.w.id+':'+it.key:'f:'+cur.a.id+':'+it.key;
+
+function paintRow(k){
+  const it=cur.r.items[k], tr=cur.rows[k];
+  const st=tr.querySelector('.st'), ac=tr.querySelector('.act');
+  tr.classList.remove('s-ok','s-warn','s-bad','s-req');
+  if(it.s==='ok'){tr.classList.add('s-ok');st.innerHTML=badge(it);ac.innerHTML='';return;}
+  const req=findReq(reqKeyOf(it));
+  if(req){
+    tr.classList.add('s-req');
+    st.innerHTML=reqBadge(req)+'<div class="rd" style="margin-top:3px">Situação: '+it.label.toLowerCase()+'</div>';
+    ac.innerHTML='<span class="rd">Enviada às '+timeOf(req.ts)+'</span>';
+    return;
+  }
+  tr.classList.add(it.s==='expiring'?'s-warn':'s-bad');
+  st.innerHTML=badge(it);
+  ac.innerHTML='<button class="btn mini" data-req="'+k+'">'+(it.s==='absent'?'Solicitar regularização':'Solicitar renovação')+'</button>';
+}
+
+function renderExtras(){
+  if(!cur)return;
+  const r=cur.r; let ex='';
+  if(!r.apto){
+    const done=r.blockers.filter(b=>findReq(reqKeyOf(b))).length;
+    ex+='<div class="block-list"><span>Impedem a execução:</span><div class="chips">'+
+      r.blockers.map(b=>'<span class="chip bad'+(findReq(reqKeyOf(b))?' sent':'')+'">'+pendLabel(b)+'</span>').join('')+'</div>'+
+      (done?'<p class="note">'+(done===r.blockers.length?'Todas as pendências têm solicitação enviada. A atividade segue bloqueada até a regularização.':plural(done,'pendência tem','pendências têm')+' solicitação enviada.')+'</p>':'')+'</div>';
+  }
+  r.alerts.forEach(al=>{
+    ex+='<div class="alert" role="alert">'+IC.warn.replace('width="16" height="16"','width="20" height="20"')+'<div><b>Documento próximo do vencimento</b>'+al.name+' vence '+(al.days===0?'hoje':'em '+plural(al.days,'dia','dias'))+' ('+al.date+'). '+(findReq(reqKeyOf(al))?'Renovação já solicitada.':'Programe a renovação para evitar bloqueio.')+'</div></div>';
+  });
+  $('#extras').innerHTML=ex;
+}
+
+/* --- janela de confirmação --- */
+let mctx=null;
+function openReqModal(k,trigger){
+  const it=cur.r.items[k], w=cur.w, a=cur.a;
+  const type=it.s==='absent'?'regularização':'renovação';
+  const sit=it.s==='absent'?'AUSENTE':it.s==='expired'?'VENCIDO':'A VENCER';
+  const to=it.group==='w'?'Gestão de pessoas — '+w.company:'Responsável técnico — '+a.front;
+  mctx={k,it,type,sit,to,trigger};
+  $('#m-title').textContent='Solicitar '+type;
+  const rows=[
+    it.group==='w'?['Trabalhador',w.name]:['Frente de serviço',a.front],
+    ['Requisito',it.name+' — '+sit],
+    ['Detalhe',it.s==='absent'?'Nenhum registro encontrado':it.validity],
+    ['Atividade',a.name+' ('+a.front+')'],
+    ['Encaminhar para',to]
+  ];
+  $('#m-dl').innerHTML=rows.map(x=>'<div><dt>'+x[0]+'</dt><dd>'+esc(x[1])+'</dd></div>').join('');
+  $('#m-prio').value=(it.s==='expiring')?'Normal':'Alta';
+  $('#m-note').value='';
+  $('#modal').hidden=false;
+  $('#m-ok').focus();
+}
+function closeModal(restoreFocus){
+  $('#modal').hidden=true;
+  if(restoreFocus&&mctx&&mctx.trigger&&document.contains(mctx.trigger))mctx.trigger.focus();
+}
+$('#m-cancel').addEventListener('click',()=>closeModal(true));
+$('#modal').addEventListener('click',e=>{if(e.target===$('#modal'))closeModal(true);});
+$('#modal').addEventListener('keydown',e=>{
+  if(e.key==='Escape'){e.preventDefault();closeModal(true);return;}
+  if(e.key==='Tab'){
+    const f=[...$('#modal').querySelectorAll('button,select,input')];
+    const first=f[0], last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+  }
+});
+$('#m-ok').addEventListener('click',()=>{
+  if(!mctx||!cur)return;
+  const {k,it,type,sit,to}=mctx;
+  const key=reqKeyOf(it);
+  if(!findReq(key)){
+    const list=loadReq();
+    list.push({id:Date.now(),ts:Date.now(),k:key,type,req:it.name,
+      sit:sit+(it.s==='expiring'?' ('+it.label.toLowerCase()+')':''),
+      scope:it.group==='w'?cur.w.name:cur.a.front,
+      scopeKind:it.group==='w'?'Trabalhador':'Frente de serviço',
+      to,prio:$('#m-prio').value,note:$('#m-note').value.trim()});
+    saveReq(list);
+  }
+  closeModal(false);
+  paintRow(k);renderExtras();updateNavCount();
+  cur.rows[k].tabIndex=-1;cur.rows[k].focus();
+  toast('Solicitação de '+type+' enviada','Encaminhada para '+to+'.');
+});
+$('#result').addEventListener('click',e=>{
+  const b=e.target.closest('[data-req]');
+  if(b&&cur)openReqModal(+b.dataset.req,b);
+});
+
+/* --- aviso --- */
+let toastT=null;
+function toast(title,text){
+  const t=$('#toast');
+  t.innerHTML='<span class="t-ic">'+IC.ok+'</span><div><b>'+title+'</b><span>'+esc(text)+'</span></div><button id="t-go">Ver pendências</button>';
+  t.hidden=false;
+  clearTimeout(toastT);toastT=setTimeout(()=>{t.hidden=true;},9000);
+  $('#t-go').addEventListener('click',()=>{t.hidden=true;show('requests');});
+}
+
+/* --- tela de pendências --- */
+function renderRequests(){
+  const list=loadReq().slice().sort((a,b)=>b.ts-a.ts);
+  const box=$('#reqs');
+  if(!list.length){
+    box.innerHTML='<div class="empty-state">'+IC.shield+'<b>Nenhuma solicitação aberta</b>Quando um requisito estiver vencido, ausente ou a vencer, solicite a regularização na Verificação de Segurança.<div style="margin-top:16px"><button class="btn" id="go-verify">Ir para a verificação</button></div></div>';
+    $('#go-verify').addEventListener('click',()=>show('verify'));
+    return;
+  }
+  box.innerHTML='<table><thead><tr><th>Solicitada</th><th>Referente a</th><th>Requisito</th><th>Situação</th><th>Encaminhada para</th><th>Prioridade</th><th>Status</th></tr></thead><tbody>'+
+    list.map(x=>'<tr class="row s-req"><td>'+timeOf(x.ts)+'<div class="rd">'+dateOf(x.ts)+'</div></td>'+
+      '<td><b>'+esc(x.scope)+'</b><div class="rd">'+x.scopeKind+'</div></td>'+
+      '<td><b>'+esc(x.req)+'</b></td>'+
+      '<td><span class="chip'+(x.sit.indexOf('A VENCER')===0?'" style="background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn)':' bad')+'">'+esc(x.sit)+'</span></td>'+
+      '<td>'+esc(x.to)+(x.note?'<div class="rd">'+esc(x.note)+'</div>':'')+'</td>'+
+      '<td>'+x.prio+'</td><td>'+reqBadge(x)+'</td></tr>').join('')+'</tbody></table>';
+}
+$('#btn-clear-req').addEventListener('click',()=>{saveReq([]);updateNavCount();renderRequests();if(cur){cur.rows.forEach((_,i)=>paintRow(i));renderExtras();}});
+
+/* ===================== VERIFICAÇÃO ===================== */
+const sel={w:null,a:null};
+let runId=0;
+
+function renderPickers(){
+  $('#workers').innerHTML=WORKERS.map(w=>
+    '<button class="pick" data-id="'+w.id+'" aria-pressed="'+(sel.w===w.id)+'"><span class="av">'+initials(w.name)+'</span><span><b>'+w.name+'</b><small>'+w.role+'</small><small>'+w.company+'</small></span></button>').join('');
+  $('#acts').innerHTML=ACTIVITIES.map(a=>
+    '<button class="pick" data-id="'+a.id+'" aria-pressed="'+(sel.a===a.id)+'"><span><b>'+a.name+'</b><small>Frente de serviço: '+a.front+'</small></span></button>').join('');
+  $$('#workers .pick').forEach(b=>b.addEventListener('click',()=>{sel.w=b.dataset.id;renderPickers();resetResult();}));
+  $$('#acts .pick').forEach(b=>b.addEventListener('click',()=>{sel.a=b.dataset.id;renderPickers();resetResult();}));
+  const a=ACTIVITIES.find(x=>x.id===sel.a);
+  $('#req-prev').innerHTML=a?
+    '<div class="req-prev"><p>Requisitos identificados para esta atividade</p>'+
+    '<p style="margin:8px 0 4px"><b style="color:var(--text)">Trabalhador</b></p><div class="chips">'+a.worker.map(k=>'<span class="chip">'+WORKER_REQS.find(r=>r.key===k).name+'</span>').join('')+'</div>'+
+    '<p style="margin:10px 0 4px"><b style="color:var(--text)">Frente de serviço</b></p><div class="chips">'+a.frontReq.map(k=>'<span class="chip">'+FRONT_REQS.find(r=>r.key===k).name+'</span>').join('')+'</div></div>':'';
+  $('#btn-verify').disabled=!(sel.w&&sel.a);
+}
+
+function resetResult(){
+  runId++;cur=null;
+  $('#btn-verify').disabled=!(sel.w&&sel.a);
+  $('#result').innerHTML='<div class="panel"><div class="empty-state">'+IC.shield+'<b>Nenhuma verificação em andamento</b>Escolha um trabalhador e uma atividade, depois clique em Verificar requisitos.</div></div>';
+}
+
+function rowHTML(i,idx){
+  return '<tr class="row" data-i="'+idx+'"><td><div class="rq">'+i.name+'</div><div class="rd">'+i.desc+'</div></td><td>'+i.ref+'</td><td>'+i.validity+'</td><td class="st"><span class="badge b-pend"><span class="spin"></span>Verificando</span></td><td class="act"></td></tr>';
+}
+
+function runVerification(){
+  const w=WORKERS.find(x=>x.id===sel.w), a=ACTIVITIES.find(x=>x.id===sel.a);
+  if(!w||!a)return;
+  const r=evaluate(w,a);
+  const my=++runId;
+  $('#btn-verify').disabled=true;
+
+  // monta resultado com linhas "verificando"
+  const wItems=r.items.filter(i=>i.group==='w'), fItems=r.items.filter(i=>i.group==='f');
+  let idx=0;
+  const body=
+    '<tr class="grp"><th colspan="5">Trabalhador — '+w.name+'</th></tr>'+wItems.map(i=>rowHTML(i,idx++)).join('')+
+    '<tr class="grp"><th colspan="5">Frente de serviço — '+a.front+'</th></tr>'+fItems.map(i=>rowHTML(i,idx++)).join('');
+  $('#result').innerHTML=
+    '<div id="verdict" class="verdict scanning" role="status" aria-live="polite"><div class="v-icon"><span class="spin" style="width:30px;height:30px;border-width:4px"></span></div><div><div class="v-word">Verificando requisitos…</div><div class="v-sub">Comparando documentos e qualificações com a atividade.</div></div><div></div></div>'+
+    '<div id="extras"></div>'+
+    '<div class="panel"><div class="panel-h"><h2>Requisitos da atividade</h2><span class="rd">'+r.total+' requisitos conferidos</span></div><div class="tbl-wrap"><table><thead><tr><th>Requisito</th><th>Registro</th><th>Validade</th><th>Status</th><th>Ação</th></tr></thead><tbody>'+body+'</tbody></table></div></div>';
+
+  const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const step=reduce?0:110, start=reduce?0:250;
+  const rows=$$('#result tr.row');
+  cur={w,a,r,rows};
+
+  r.items.forEach((it,k)=>{
+    setTimeout(()=>{
+      if(my!==runId)return;
+      paintRow(k);
+    },start+step*k);
+  });
+
+  setTimeout(()=>{
+    if(my!==runId)return;
+    const v=$('#verdict');
+    v.className='verdict stamp '+(r.apto?'apto':'nao');
+    v.innerHTML=
+      '<div class="v-icon">'+(r.apto?IC.bigOk:IC.bigBad)+'</div>'+
+      '<div><div class="v-word">'+(r.apto?'APTO':'NÃO APTO')+'</div><div class="v-sub">'+
+        (r.apto?w.name+' pode executar '+a.name+'.':w.name+' não pode iniciar '+a.name+'.')+'</div></div>'+
+      '<div class="v-meta"><strong>'+r.met+' de '+r.total+'</strong>requisitos atendidos<br>'+a.front+'<br>Verificado às '+timeOf(Date.now())+'</div>';
+    renderExtras();
+    // registra no histórico
+    const h=loadHist();
+    h.push({ts:Date.now(),w:w.name,act:a.name,front:a.front,apto:r.apto,pend:r.blockers.map(pendLabel),alerts:r.alerts.map(x=>x.name)});
+    saveHist(h);
+    $('#btn-verify').disabled=false;
+  },start+step*r.items.length+120);
+}
+$('#btn-verify').addEventListener('click',runVerification);
+
+/* ===================== HISTÓRICO (tela) ===================== */
+function renderHist(){
+  const h=loadHist().slice().sort((a,b)=>b.ts-a.ts);
+  if(!h.length){$('#hist').innerHTML='<div class="empty">Nenhuma verificação registrada. Faça uma verificação para vê-la aqui.</div>';return;}
+  $('#hist').innerHTML='<table><thead><tr><th>Hora</th><th>Trabalhador</th><th>Atividade</th><th>Resultado</th><th>Pendências e alertas</th></tr></thead><tbody>'+
+    h.map(x=>'<tr class="row"><td>'+timeOf(x.ts)+'</td><td><b>'+x.w+'</b></td><td>'+x.act+'<div class="rd">'+x.front+'</div></td><td>'+
+      (x.apto?'<span class="badge b-ok">'+IC.ok+'APTO</span>':'<span class="badge b-bad">'+IC.bad+'NÃO APTO</span>')+'</td><td>'+
+      (x.pend.map(p=>'<span class="chip bad">'+p+'</span> ').join('')+x.alerts.map(p=>'<span class="chip" style="background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn)">'+p+' a vencer</span> ').join('')||'<span class="rd">Sem pendências</span>')+
+    '</td></tr>').join('')+'</tbody></table>';
+}
+$('#btn-clear').addEventListener('click',()=>{saveHist([]);renderHist();});
+
+/* ===================== INÍCIO ===================== */
+renderPickers();
+resetResult();
+updateNavCount();
+})();
+</script>
+</body>
+</html>
