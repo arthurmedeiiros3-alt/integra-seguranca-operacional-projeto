@@ -50,6 +50,8 @@ h1,h2,h3{font-family:var(--font-display);margin:0;letter-spacing:.005em}
 .nav button:hover{background:#18394a}
 .nav button[aria-current="page"]{background:var(--ink-2);color:#fff;font-weight:600}
 .nav svg{flex:none}
+.side-bottom{margin-top:auto}
+.side-bottom .who{margin-top:0}
 .who{margin-top:auto;padding:12px;border-top:1px solid #254a59;display:flex;gap:10px;align-items:center;font-size:13px}
 .who .av{width:34px;height:34px;border-radius:50%;background:#2f6275;color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
 .who b{display:block;color:#fff;font-weight:600}
@@ -169,6 +171,126 @@ tr.row.s-req td:first-child{box-shadow:inset 4px 0 0 var(--accent)}
 .toast button{flex:none;background:#fff;color:var(--ink);border:0;border-radius:6px;padding:7px 12px;font-weight:600;cursor:pointer}
 @keyframes rise{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
 
+/* ---------- Modo Portaria ---------- */
+.side-actions{display:flex;gap:8px;flex-wrap:wrap;padding:0 8px 12px}
+.linkbtn{background:none;border:1.5px solid #2f5a6b;color:#cfe3ea;border-radius:7px;padding:7px 11px;font-size:13px;cursor:pointer}
+.linkbtn:hover{background:#18394a}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#portaria{min-height:100vh;background:var(--bg)}
+.ptop{background:var(--ink);color:#d6e6eb;display:flex;align-items:center;gap:20px;padding:12px 28px;flex-wrap:wrap}
+.ptop .brand{color:#fff}
+.ptop .brand small{color:#8fb0bc}
+.ptop-mid{margin-left:auto;font:600 15px var(--font-display);letter-spacing:.03em;color:#fff}
+.ptop-right{display:flex;align-items:center;gap:12px}
+.op{display:flex;align-items:center;gap:10px;font-size:13px;padding-right:14px;border-right:1px solid #2c5160}
+.op .av{width:38px;height:38px;border-radius:50%;background:#2f6275;color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+.op b{display:block;color:#fff}
+.ptb{min-height:44px;padding:0 16px;border-radius:8px;border:1.5px solid #3a6577;background:transparent;color:#fff;font-weight:600;cursor:pointer}
+.ptb:hover{background:#1d4150}
+.pmain{max-width:1240px;margin:0 auto;padding:28px 28px 56px}
+.phead h1{font-size:36px}
+.phead p{margin:4px 0 22px;color:var(--muted);font-size:17px;max-width:64ch}
+.pgrid{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px;align-items:start}
+.pform{padding:24px 24px 26px}
+.pstep{margin-bottom:26px}
+.pstep h2{font-size:20px;display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.pstep h2 .n{width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font:700 14px var(--font-body)}
+.psearch{display:flex;align-items:center;gap:10px;border:2px solid var(--line);border-radius:10px;background:#fff;padding:0 14px;min-height:58px;color:var(--muted)}
+.psearch:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px #b6dcea}
+.psearch input{flex:1;border:0;outline:0;font:inherit;font-size:18px;background:none;min-height:54px;color:var(--text);min-width:0}
+.psel{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;font-size:14.5px}
+.psel:empty{display:none}
+.ptb-link{background:none;border:0;color:var(--accent);font-weight:600;cursor:pointer;min-height:40px;padding:0 8px;text-decoration:underline}
+.plist,.pchoices{display:grid;gap:8px;margin-top:12px}
+.pchoices{margin-top:0}
+.pw,.pc{display:flex;align-items:center;gap:14px;width:100%;text-align:left;min-height:68px;padding:10px 14px;border:2px solid var(--line);border-radius:10px;background:#fff;cursor:pointer}
+.pc{min-height:60px}
+.pw:hover,.pc:hover{border-color:#8fb2c0}
+.pw[aria-pressed="true"],.pc[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-bg);box-shadow:inset 5px 0 0 var(--accent)}
+.pw .av{flex:none;width:44px;height:44px;border-radius:50%;background:var(--ink-2);color:#fff;display:grid;place-items:center;font-weight:700}
+.pw-t b,.pc-t b{display:block;font-size:17px}
+.pw-t small,.pc-t small{display:block;color:var(--muted);font-size:13.5px;line-height:1.35}
+.pw-ck{margin-left:auto;flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:none;place-items:center}
+[aria-pressed="true"]>.pw-ck{display:grid}
+.pempty{margin:0;color:var(--muted);padding:14px;border:1.5px dashed #b5c5cc;border-radius:10px}
+.plist .pempty{margin-top:0}
+.pcta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:68px;border:0;border-radius:12px;background:var(--accent);color:#fff;font:700 22px var(--font-display);letter-spacing:.02em;cursor:pointer}
+.pcta:hover{background:#095c78}
+.pcta:disabled{background:#b8c6cc;cursor:not-allowed}
+.pcta.sec{background:#fff;color:var(--text);border:2px solid var(--line)}
+.pcta.sec:hover{background:#f2f5f6}
+.pbtn{min-height:56px;padding:0 26px;border-radius:10px;border:2px solid var(--line);background:#fff;font:700 18px var(--font-display);cursor:pointer}
+.pbtn:hover{background:#f2f5f6}
+.phint{margin:10px 0 0;text-align:center;color:var(--muted);font-size:14.5px}
+.pside{display:grid;gap:18px}
+.pstats{display:grid;grid-template-columns:repeat(3,1fr)}
+.pstats div{padding:14px 16px;border-left:1px solid var(--line)}
+.pstats div:first-child{border-left:0}
+.pstats b{display:block;font:700 34px/1.05 var(--font-display)}
+.pstats span{font-size:13px;color:var(--muted)}
+.pstats .s-ok b{color:var(--ok)} .pstats .s-bad b{color:var(--bad)}
+.list button{min-height:56px}
+#p-result:focus{outline:none}
+.pverdict{border-radius:16px;padding:34px 38px;display:flex;align-items:center;gap:34px;color:#fff;margin-bottom:16px}
+.pverdict.apto{background:var(--ok)}
+.pverdict.nao{background:var(--bad)}
+.pverdict.scanning{background:#dfe6e9;color:var(--text);flex-direction:column;align-items:flex-start;gap:12px;padding:38px}
+.pverdict.stamp{animation:stamp .32s cubic-bezier(.2,.9,.3,1.2)}
+.pv-icon{flex:none;width:124px;height:124px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center}
+.pv-icon svg{width:74px;height:74px}
+.pv-word{font:800 clamp(64px,11vw,132px)/.95 var(--font-display);letter-spacing:.01em}
+.pv-sub{font:600 clamp(22px,3vw,34px)/1.2 var(--font-display);margin-top:8px}
+.scanning .pv-sub{margin:0}
+.pbar{width:100%;height:10px;border-radius:99px;background:#c3cfd4;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--accent);transform-origin:left;animation:pfill .9s ease-out forwards}
+@keyframes pfill{from{transform:scaleX(.05)}to{transform:scaleX(1)}}
+.palert{display:flex;gap:14px;align-items:flex-start;background:var(--warn-bg);border:2px solid var(--warn-line);color:var(--warn);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:16px}
+.palert svg{flex:none;margin-top:2px}
+.tag{display:inline-flex;align-items:center;gap:6px;border-radius:6px;padding:4px 10px;font-weight:700;font-size:13px;letter-spacing:.04em;white-space:nowrap}
+.t-warn{background:#8a5300;color:#fff}
+.t-bad{background:var(--bad-bg);color:var(--bad);border:1.5px solid #e9a8a3}
+.t-abs{background:var(--bad);color:#fff}
+.t-req{background:#e3eef6;color:#1c4f6e;border:1.5px solid #a9c5d8}
+.t-ok{background:var(--ok);color:#fff}
+.pfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:0 0 16px}
+.pfacts>div{background:#fff;padding:14px 18px}
+.pfacts dt{font-size:12.5px;color:var(--muted);font-weight:600}
+.pfacts dd{margin:2px 0 0;font:600 18px/1.3 var(--font-display)}
+.pfacts dd small{display:block;font:400 13.5px var(--font-body);color:var(--muted)}
+.psec{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px}
+.psec h2{font-size:20px;margin-bottom:6px}
+.psec.bad{border:2px solid #e9a8a3}
+.pbl{list-style:none;margin:0;padding:0}
+.pbl li{display:flex;gap:16px;align-items:flex-start;padding:14px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+.pbl li:first-child{border-top:0}
+.pbl .l{min-width:200px}
+.pbl .m{flex:1;min-width:230px}
+.pbl .m b{font-size:18px}
+.pbl small{display:block;color:var(--muted);font-size:14px;margin-top:2px}
+.pchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.pchip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--ok-bg);color:var(--ok);font-weight:600;font-size:14.5px}
+.pchip.warn{background:var(--warn-bg);color:var(--warn)}
+.pnote{margin:10px 0 0;color:var(--muted);font-size:14.5px}
+.pactions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+.pd-res{margin-bottom:14px}
+.pd-h{margin:14px 0 6px;font-weight:600}
+#pd .pbl li{padding:10px 0}
+@media (max-width:1000px){
+  .pgrid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  .ptop{padding:10px 16px;gap:10px}
+  .ptop-mid{display:none}
+  .op small{display:none}
+  .pmain{padding:20px 16px 40px}
+  .phead h1{font-size:30px}
+  .pform{padding:18px 16px 20px}
+  .pverdict{flex-direction:column;align-items:flex-start;padding:24px;gap:16px}
+  .pv-icon{width:84px;height:84px}
+  .pv-icon svg{width:50px;height:50px}
+  .pactions{grid-template-columns:1fr}
+}
+
 @media (max-width:1080px){
   .vgrid{grid-template-columns:1fr}
   .cols{grid-template-columns:1fr}
@@ -186,7 +308,7 @@ tr.row.s-req td:first-child{box-shadow:inset 4px 0 0 var(--accent)}
   .v-word{font-size:52px}
 }
 @media (prefers-reduced-motion:reduce){
-  .verdict.stamp,.spin,.toast{animation:none}
+  .verdict.stamp,.spin,.toast,.pverdict.stamp,.pbar i{animation:none}
 }
 </style>
 </head>
@@ -200,10 +322,11 @@ tr.row.s-req td:first-child{box-shadow:inset 4px 0 0 var(--accent)}
       <div><b>INTEGRA</b><small>Segurança Operacional Conectada</small></div>
     </div>
     <h1>Entrar</h1>
-    <p>Acesse como profissional de SST ou supervisor.</p>
+    <p>Escolha o perfil de acesso. A autenticação é simulada nesta demonstração.</p>
     <label class="field"><span>E-mail</span><input type="text" value="supervisor.sst@integra.demo" aria-label="E-mail"></label>
     <label class="field"><span>Senha</span><input type="password" value="demonstracao" aria-label="Senha"></label>
     <button class="btn block" id="btn-login">Entrar como Supervisor de SST</button>
+    <button class="btn ghost block" id="btn-login-p">Entrar como Portaria (Controle de Acesso)</button>
     <p class="login-note">Ambiente de demonstração com dados fictícios.</p>
   </div>
 </div>
@@ -234,7 +357,10 @@ tr.row.s-req td:first-child{box-shadow:inset 4px 0 0 var(--accent)}
         Histórico
       </button>
     </nav>
-    <div class="who"><div class="av">SS</div><div><b>Supervisor de SST</b>Terminal portuário (demo)</div></div>
+    <div class="side-bottom">
+      <div class="side-actions"><button class="linkbtn" id="btn-to-portaria">Abrir modo Portaria</button><button class="linkbtn" id="btn-logout-sst">Sair</button></div>
+      <div class="who"><div class="av">SS</div><div><b>Supervisor de SST</b>Terminal portuário (demo)</div></div>
+    </div>
   </aside>
 
   <main>
@@ -285,11 +411,79 @@ tr.row.s-req td:first-child{box-shadow:inset 4px 0 0 var(--accent)}
     <section id="view-history" hidden>
       <div class="page-head">
         <div><h1>Histórico de verificações</h1><p>Registros desta sessão de demonstração.</p></div>
-        <button class="btn ghost" id="btn-clear">Limpar histórico</button>
+        <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" id="btn-seed">Restaurar histórico de exemplo</button><button class="btn ghost" id="btn-clear">Limpar histórico</button></div>
       </div>
       <div class="panel"><div class="tbl-wrap" id="hist"></div></div>
     </section>
   </main>
+</div>
+
+<!-- ============ PORTARIA ============ -->
+<div id="portaria" hidden>
+  <header class="ptop">
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><path d="M8 9H24L16 24Z" fill="none" stroke="#6fc3dc" stroke-width="2" stroke-linejoin="round"/><circle cx="8" cy="9" r="4" fill="#6fc3dc"/><circle cx="24" cy="9" r="4" fill="#fff"/><circle cx="16" cy="24" r="4" fill="#3fc2a9"/></svg>
+      <div><b style="font:700 21px/1 var(--font-display);letter-spacing:.06em">INTEGRA</b><small>Portaria — Controle de Acesso</small></div>
+    </div>
+    <div class="ptop-mid" id="p-clock"></div>
+    <div class="ptop-right">
+      <div class="op"><span class="av">PO</span><div><b>Operador Portaria 01</b><small>Perfil simulado: Portaria</small></div></div>
+      <button class="ptb" id="btn-to-sst">Modo SST</button>
+      <button class="ptb" id="btn-logout-p">Sair</button>
+    </div>
+  </header>
+
+  <main class="pmain">
+    <section id="p-home">
+      <div class="phead">
+        <h1>Controle de Acesso</h1>
+        <p>Confirme se o trabalhador está apto para a área e a atividade antes de liberar a entrada.</p>
+      </div>
+      <div class="pgrid">
+        <div class="panel pform">
+          <div class="pstep">
+            <h2><span class="n">1</span>Trabalhador</h2>
+            <label class="psearch">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+              <span class="sr">Buscar por nome ou matrícula</span>
+              <input id="p-search" type="search" placeholder="Buscar por nome ou matrícula" autocomplete="off">
+            </label>
+            <div class="psel" id="p-sel"></div>
+            <div class="plist" id="p-workers"></div>
+          </div>
+          <div class="pstep"><h2><span class="n">2</span>Área de destino</h2><div class="pchoices" id="p-areas"></div></div>
+          <div class="pstep"><h2><span class="n">3</span>Atividade</h2><div class="pchoices" id="p-acts"></div></div>
+          <button class="pcta" id="p-verify" disabled>Verificar requisitos</button>
+          <p class="phint" id="p-hint"></p>
+        </div>
+        <aside class="pside">
+          <div class="panel pstats" id="p-stats"></div>
+          <div class="panel">
+            <div class="panel-h"><h2>Verificações recentes</h2><button class="btn ghost mini" id="p-open-hist" style="min-height:40px">Ver todas</button></div>
+            <ul class="list" id="p-recent"></ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="p-result" aria-live="polite" hidden></section>
+
+    <section id="p-history" hidden>
+      <div class="phead" style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+        <div><h1>Histórico de verificações</h1><p style="margin-bottom:0">Consultas registradas neste navegador.</p></div>
+        <button class="pbtn" id="p-back">Voltar</button>
+      </div>
+      <div class="panel" style="margin-top:20px"><div class="tbl-wrap" id="p-hist-tbl"></div></div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-back" id="pd" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pd-title">
+    <h2 id="pd-title">Detalhe da verificação</h2>
+    <div id="pd-body" style="margin-top:12px"></div>
+    <div class="m-actions"><button class="btn" id="pd-close" style="min-height:46px">Fechar</button></div>
+  </div>
 </div>
 
 <!-- Janela de confirmação -->
@@ -334,13 +528,13 @@ const FRONT_REQS=[
 ];
 
 const WORKERS=[
-  {id:'carlos',name:'Carlos Mendes',role:'Montador de fachadas',company:'Vidraça Norte Engenharia',
+  {id:'carlos',name:'Carlos Mendes',reg:'MAT-20418',role:'Montador de fachadas',company:'Vidraça Norte Engenharia',
    docs:{nr35:{ref:'NR35-0412',expires:addDays(240)},hab:{ref:'HAB-1187',expires:addDays(300)},aso:{ref:'ASO-8821',expires:addDays(160)}}},
-  {id:'marina',name:'Marina Souza',role:'Técnica de montagem',company:'Vidraça Norte Engenharia',
+  {id:'marina',name:'Marina Souza',reg:'MAT-20431',role:'Técnica de montagem',company:'Vidraça Norte Engenharia',
    docs:{nr35:{ref:'NR35-0377',expires:addDays(180)},hab:{ref:'HAB-1093',expires:addDays(400)},aso:{ref:'ASO-7710',expires:addDays(-20)}}},
-  {id:'paulo',name:'Paulo Lima',role:'Auxiliar de montagem',company:'Estrutura Sul Serviços',
+  {id:'paulo',name:'Paulo Lima',reg:'MAT-30207',role:'Auxiliar de montagem',company:'Estrutura Sul Serviços',
    docs:{nr35:null,hab:{ref:'HAB-1250',expires:addDays(210)},aso:{ref:'ASO-9034',expires:addDays(90)}}},
-  {id:'ana',name:'Ana Beatriz Costa',role:'Encarregada de montagem',company:'Vidraça Norte Engenharia',
+  {id:'ana',name:'Ana Beatriz Costa',reg:'MAT-20399',role:'Encarregada de montagem',company:'Vidraça Norte Engenharia',
    docs:{nr35:{ref:'NR35-0291',expires:addDays(120)},hab:{ref:'HAB-0988',expires:addDays(330)},aso:{ref:'ASO-8105',expires:addDays(12)}}}
 ];
 
@@ -362,7 +556,10 @@ const ACTIVITIES=[
      pt:null,
      resgate:null,
      anc:{ref:'Laudo de inspeção',expires:addDays(45)}
-   }}
+   }},
+  {id:'a3',name:'Inspeção visual de fachada em solo',front:'Torre B — Fachada norte',
+   worker:['aso'],frontReq:['apr'],
+   docs:{apr:{ref:'APR emitida hoje',expires:null,validity:'Válida no turno'}}}
 ];
 
 /* ===================== MOTOR DE VERIFICAÇÃO ===================== */
@@ -389,16 +586,19 @@ const pendLabel=i=>i.name+' — '+(i.s==='absent'?'AUSENTE':'VENCIDO');
 /* ===================== HISTÓRICO ===================== */
 const KEY='integra-demo-history-v1';
 let memHist=null;
+function makeSeed(){
+  const t=n=>{const d=new Date();d.setMinutes(d.getMinutes()-n);return d.getTime();};
+  const A='Substituição de peles de vidro', F='Torre B — Fachada norte';
+  return [
+    {ts:t(95),src:'portaria',w:'Ana Beatriz Costa',reg:'MAT-20399',company:'Vidraça Norte Engenharia',act:A,front:F,apto:true,pend:[],alerts:['ASO'],alertDet:['ASO — vence em 12 dias ('+fmt(addDays(12))+')']},
+    {ts:t(140),src:'portaria',w:'Paulo Lima',reg:'MAT-30207',company:'Estrutura Sul Serviços',act:A,front:F,apto:false,pend:['NR-35 — AUSENTE'],alerts:[],alertDet:[]},
+    {ts:t(210),src:'sst',w:'Carlos Mendes',reg:'MAT-20418',company:'Vidraça Norte Engenharia',act:A,front:F,apto:true,pend:[],alerts:[],alertDet:[]}
+  ];
+}
 function loadHist(){
   try{const raw=localStorage.getItem(KEY);if(raw!==null)return JSON.parse(raw);}catch(e){if(memHist)return memHist;}
   if(memHist)return memHist;
-  const t=n=>{const d=new Date();d.setMinutes(d.getMinutes()-n);return d.getTime();};
-  const seed=[
-    {ts:t(95),w:'Ana Beatriz Costa',act:'Substituição de peles de vidro',front:'Torre B — Fachada norte',apto:true,pend:[],alerts:['ASO']},
-    {ts:t(140),w:'Paulo Lima',act:'Substituição de peles de vidro',front:'Torre B — Fachada norte',apto:false,pend:['NR-35 — AUSENTE'],alerts:[]},
-    {ts:t(210),w:'Carlos Mendes',act:'Substituição de peles de vidro',front:'Torre B — Fachada norte',apto:true,pend:[],alerts:[]}
-  ];
-  saveHist(seed);return seed;
+  const seed=makeSeed();saveHist(seed);return seed;
 }
 function saveHist(h){memHist=h;try{localStorage.setItem(KEY,JSON.stringify(h));}catch(e){}}
 const timeOf=ts=>new Date(ts).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
@@ -409,6 +609,7 @@ const IC={
   ok:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
   bad:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
   warn:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3L12 4z"/><path d="M12 10v4M12 17.2v.1"/></svg>',
+  absent:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M6 18L18 6"/></svg>',
   clock:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
   bigOk:'<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
   bigBad:'<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
@@ -432,7 +633,20 @@ function show(view){
 }
 $$('.nav button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.view)));
 $$('[data-go]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.go)));
-$('#btn-login').addEventListener('click',()=>{$('#login').hidden=true;$('#app').hidden=false;show('dash');});
+function enter(mode){
+  $('#login').hidden=true;
+  $('#app').hidden=(mode!=='sst');
+  $('#portaria').hidden=(mode!=='portaria');
+  try{history.replaceState(null,'','#'+mode);}catch(e){}
+  if(mode==='sst'){show('dash');}else{pNew();pClock();}
+}
+function logout(){
+  $('#app').hidden=true;$('#portaria').hidden=true;$('#login').hidden=false;
+  try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}
+  window.scrollTo(0,0);
+}
+$('#btn-login').addEventListener('click',()=>enter('sst'));
+$('#btn-login-p').addEventListener('click',()=>enter('portaria'));
 
 /* ===================== PAINEL ===================== */
 function renderDash(){
@@ -472,7 +686,8 @@ const dateOf=ts=>new Date(ts).toLocaleDateString('pt-BR');
 function reqBadge(req){return '<span class="badge b-req">'+IC.clock+cap(req.type)+' solicitada</span>';}
 function updateNavCount(){const n=loadReq().length;const p=$('#nav-count');p.textContent=n;p.hidden=(n===0);}
 let cur=null; // verificação em exibição: {w,a,r,rows}
-const reqKeyOf=it=>it.group==='w'?'w:'+cur.w.id+':'+it.key:'f:'+cur.a.id+':'+it.key;
+const reqKey=(it,w,a)=>it.group==='w'?'w:'+w.id+':'+it.key:'f:'+a.id+':'+it.key;
+const reqKeyOf=it=>reqKey(it,cur.w,cur.a);
 
 function paintRow(k){
   const it=cur.r.items[k], tr=cur.rows[k];
@@ -664,10 +879,7 @@ function runVerification(){
         (r.apto?w.name+' pode executar '+a.name+'.':w.name+' não pode iniciar '+a.name+'.')+'</div></div>'+
       '<div class="v-meta"><strong>'+r.met+' de '+r.total+'</strong>requisitos atendidos<br>'+a.front+'<br>Verificado às '+timeOf(Date.now())+'</div>';
     renderExtras();
-    // registra no histórico
-    const h=loadHist();
-    h.push({ts:Date.now(),w:w.name,act:a.name,front:a.front,apto:r.apto,pend:r.blockers.map(pendLabel),alerts:r.alerts.map(x=>x.name)});
-    saveHist(h);
+    recordCheck(w,a,r,'sst');
     $('#btn-verify').disabled=false;
   },start+step*r.items.length+120);
 }
@@ -685,10 +897,190 @@ function renderHist(){
 }
 $('#btn-clear').addEventListener('click',()=>{saveHist([]);renderHist();});
 
+/* ===================== PORTARIA ===================== */
+// Reaproveita evaluate(), evalDoc(), WORKERS, ACTIVITIES, histórico e solicitações do módulo SST.
+const AREAS=[...new Set(ACTIVITIES.map(a=>a.front))];
+const norm=t=>String(t).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const P={w:null,area:null,act:null,q:''};
+let pRun=0;
+const wByName=n=>WORKERS.find(w=>w.name===n);
+const reduceMotion=()=>window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const resBadge=apto=>apto?'<span class="badge b-ok">'+IC.ok+'APTO</span>':'<span class="badge b-bad">'+IC.bad+'NÃO APTO</span>';
+const tagBySt=st=>st==='AUSENTE'?'<span class="tag t-abs">'+IC.absent+'REQUISITO AUSENTE</span>':'<span class="tag t-bad">'+IC.clock+'DOCUMENTO VENCIDO</span>';
+const tagFor=it=>tagBySt(it.s==='absent'?'AUSENTE':'VENCIDO');
+const reqTag=q=>'<span class="tag t-req">'+IC.clock+(q.type==='renovação'?'RENOVAÇÃO':'REGULARIZAÇÃO')+' SOLICITADA</span>';
+const bigIc=svg=>svg.replace('width="16" height="16"','width="26" height="26"');
+
+function recordCheck(w,a,r,src){
+  const h=loadHist();
+  const rec={ts:Date.now(),src,w:w.name,reg:w.reg,company:w.company,act:a.name,front:a.front,apto:r.apto,
+    pend:r.blockers.map(pendLabel),alerts:r.alerts.map(x=>x.name),
+    alertDet:r.alerts.map(x=>x.name+' — '+x.label.toLowerCase()+' ('+x.date+')')};
+  h.push(rec);saveHist(h);return rec;
+}
+function pClock(){$('#p-clock').textContent=new Date().toLocaleString('pt-BR',{weekday:'short',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});}
+setInterval(pClock,20000);
+function pView(v){['home','result','history'].forEach(n=>{$('#p-'+n).hidden=(n!==v);});}
+
+function pRenderWorkers(){
+  const q=norm(P.q.trim());
+  const list=WORKERS.filter(w=>!q||norm(w.name).includes(q)||norm(w.reg).includes(q));
+  const ck='<span class="pw-ck">'+IC.ok+'</span>';
+  $('#p-workers').innerHTML=list.length?list.map(w=>
+    '<button type="button" class="pw" data-id="'+w.id+'" aria-pressed="'+(P.w===w.id)+'"><span class="av">'+initials(w.name)+'</span><span class="pw-t"><b>'+w.name+'</b><small>Matrícula '+w.reg+'</small><small>'+w.company+'</small></span>'+ck+'</button>').join('')
+    :'<p class="pempty">Nenhum trabalhador encontrado para “'+esc(P.q)+'”. Confira o nome ou a matrícula.</p>';
+  const w=WORKERS.find(x=>x.id===P.w);
+  $('#p-sel').innerHTML=w?'<span>Selecionado: <b>'+w.name+'</b> — '+w.reg+'</span><button type="button" id="p-unsel" class="ptb-link">Trocar</button>':'';
+}
+function pRenderAreas(){
+  const ck='<span class="pw-ck">'+IC.ok+'</span>';
+  $('#p-areas').innerHTML=AREAS.map((n,i)=>{
+    const c=ACTIVITIES.filter(a=>a.front===n).length;
+    return '<button type="button" class="pc" data-i="'+i+'" aria-pressed="'+(P.area===n)+'"><span class="pc-t"><b>'+n+'</b><small>'+plural(c,'atividade cadastrada','atividades cadastradas')+'</small></span>'+ck+'</button>';
+  }).join('');
+}
+function pRenderActs(){
+  if(!P.area){$('#p-acts').innerHTML='<p class="pempty">Escolha a área de destino para ver as atividades.</p>';return;}
+  const ck='<span class="pw-ck">'+IC.ok+'</span>';
+  const list=ACTIVITIES.filter(a=>a.front===P.area);
+  $('#p-acts').innerHTML=list.map(a=>
+    '<button type="button" class="pc" data-id="'+a.id+'" aria-pressed="'+(P.act===a.id)+'"><span class="pc-t"><b>'+a.name+'</b><small>Exige '+a.worker.length+' do trabalhador e '+a.frontReq.length+' da frente de serviço</small></span>'+ck+'</button>').join('')+
+    (list.length===1?'<p class="phint" style="text-align:left;margin:2px 0 0">Única atividade desta área, selecionada automaticamente. Confirme antes de verificar.</p>':'');
+}
+function pUpdate(){
+  const miss=[];if(!P.w)miss.push('trabalhador');if(!P.area)miss.push('área');if(!P.act)miss.push('atividade');
+  $('#p-verify').disabled=miss.length>0;
+  $('#p-hint').textContent=miss.length?'Falta escolher: '+miss.join(', ').replace(/, ([^,]*)$/,' e $1')+'.':'Tudo pronto. Toque em Verificar requisitos.';
+}
+function pRenderSide(){
+  const h=loadHist(), t=h.filter(x=>isToday(x.ts));
+  $('#p-stats').innerHTML='<div><b>'+t.length+'</b><span>Verificações hoje</span></div><div class="s-ok"><b>'+t.filter(x=>x.apto).length+'</b><span>Aptos</span></div><div class="s-bad"><b>'+t.filter(x=>!x.apto).length+'</b><span>Não aptos</span></div>';
+  const rec=h.slice().sort((a,b)=>b.ts-a.ts).slice(0,6);
+  $('#p-recent').innerHTML=rec.length?rec.map(x=>
+    '<li><button type="button" data-ts="'+x.ts+'"><div><b>'+esc(x.w)+'</b><small>'+esc(x.front)+' — '+timeOf(x.ts)+'</small></div>'+resBadge(x.apto)+'</button></li>').join('')
+    :'<li class="empty">Nenhuma verificação registrada ainda.</li>';
+}
+function pReset(){P.w=null;P.area=null;P.act=null;P.q='';$('#p-search').value='';pRenderWorkers();pRenderAreas();pRenderActs();pUpdate();pRenderSide();}
+function pNew(){pRun++;pReset();pView('home');window.scrollTo(0,0);$('#p-search').focus();}
+
+$('#p-search').addEventListener('input',e=>{P.q=e.target.value;pRenderWorkers();});
+$('#p-workers').addEventListener('click',e=>{
+  const b=e.target.closest('.pw');if(!b)return;
+  P.w=b.dataset.id;pRenderWorkers();pUpdate();
+  const f=$('#p-workers [data-id="'+P.w+'"]');if(f)f.focus();
+});
+$('#p-sel').addEventListener('click',e=>{if(e.target.closest('#p-unsel')){P.w=null;pRenderWorkers();pUpdate();$('#p-search').focus();}});
+$('#p-areas').addEventListener('click',e=>{
+  const b=e.target.closest('.pc');if(!b)return;
+  P.area=AREAS[+b.dataset.i];
+  const list=ACTIVITIES.filter(a=>a.front===P.area);
+  P.act=list.length===1?list[0].id:(list.some(a=>a.id===P.act)?P.act:null);
+  pRenderAreas();pRenderActs();pUpdate();
+  const f=$('#p-areas [data-i="'+b.dataset.i+'"]');if(f)f.focus();
+});
+$('#p-acts').addEventListener('click',e=>{
+  const b=e.target.closest('.pc');if(!b)return;
+  P.act=b.dataset.id;pRenderActs();pUpdate();
+  const f=$('#p-acts [data-id="'+P.act+'"]');if(f)f.focus();
+});
+$('#p-verify').addEventListener('click',pVerify);
+
+function pVerify(){
+  const w=WORKERS.find(x=>x.id===P.w), a=ACTIVITIES.find(x=>x.id===P.act);
+  if(!w||!a||!P.area)return;
+  const r=evaluate(w,a);          // mesma regra do módulo SST
+  const my=++pRun;
+  const box=$('#p-result');
+  pView('result');
+  box.innerHTML='<div class="pverdict scanning" role="status"><div class="pbar"><i></i></div><div class="pv-sub">Verificando requisitos…</div><p style="margin:0">'+esc(w.name)+' — '+esc(a.name)+' ('+esc(a.front)+')</p></div>';
+  box.tabIndex=-1;box.focus();window.scrollTo(0,0);
+  setTimeout(()=>{
+    if(my!==pRun)return;
+    const rec=recordCheck(w,a,r,'portaria');
+    box.innerHTML=pResultHTML(w,a,r,rec.ts);
+    pRenderSide();
+  },reduceMotion()?0:900);
+}
+
+function pResultHTML(w,a,r,ts){
+  const apto=r.apto;
+  let h='<div class="pverdict stamp '+(apto?'apto':'nao')+'" role="status"><div class="pv-icon">'+(apto?IC.bigOk:IC.bigBad)+'</div><div><div class="pv-word">'+(apto?'APTO':'NÃO APTO')+'</div><div class="pv-sub">'+(apto?'Acesso autorizado':'Acesso não autorizado')+'</div></div></div>';
+  r.alerts.forEach(al=>{
+    h+='<div class="palert" role="alert">'+bigIc(IC.warn)+'<div><span class="tag t-warn">ATENÇÃO</span> <b style="margin-left:6px">'+al.name+' próximo do vencimento</b><div>Vence '+(al.days===0?'hoje':'em '+plural(al.days,'dia','dias'))+' ('+al.date+'). '+(apto?'O acesso está autorizado. Avise o trabalhador e o gestor para renovar.':'Este documento não é o motivo do bloqueio.')+'</div></div></div>';
+  });
+  h+='<dl class="pfacts">'+[['Trabalhador',w.name,'Matrícula '+w.reg],['Empresa',w.company,''],['Área de destino',a.front,''],['Atividade',a.name,''],['Consulta',dateOf(ts)+' às '+timeOf(ts),'']]
+    .map(f=>'<div><dt>'+f[0]+'</dt><dd>'+esc(f[1])+(f[2]?'<small>'+esc(f[2])+'</small>':'')+'</dd></div>').join('')+'</dl>';
+  if(!apto){
+    h+='<section class="psec bad"><h2>Motivo do bloqueio</h2><ul class="pbl">'+r.blockers.map(b=>{
+      const q=findReq(reqKey(b,w,a));
+      return '<li><div class="l">'+tagFor(b)+'</div>'+
+        '<div class="m"><b>'+b.name+'</b><small>'+(b.group==='w'?'Requisito do trabalhador':'Requisito da frente de serviço')+' — '+b.desc+'</small><small>'+(b.s==='absent'?'Nenhum registro encontrado.':b.validity+'.')+'</small></div>'+
+        '<div class="m">'+(q?reqTag(q)+'<small>Enviada às '+timeOf(q.ts)+' e encaminhada para '+esc(q.to)+'. A solicitação não libera o acesso.</small>':'<small>Nenhuma solicitação de regularização registrada.</small>')+'</div></li>';
+    }).join('')+'</ul><p class="pnote">O acesso só é liberado depois da regularização. A portaria não aprova documentos nem libera o trabalhador.</p></section>';
+  }
+  const okItems=r.items.filter(i=>i.s==='ok'||i.s==='expiring');
+  h+='<section class="psec"><h2>Requisitos atendidos ('+r.met+' de '+r.total+')</h2>'+
+    (okItems.length?'<div class="pchips">'+okItems.map(i=>i.s==='expiring'?'<span class="pchip warn">'+IC.warn+i.name+' — '+i.label.toLowerCase()+'</span>':'<span class="pchip">'+IC.ok+i.name+'</span>').join('')+'</div>':'<p class="pnote" style="margin-top:0">Nenhum requisito atendido.</p>')+'</section>';
+  h+='<div class="pactions"><button class="pcta" id="p-new">Nova verificação</button><button class="pcta sec" id="p-hist">Ver histórico recente</button></div>';
+  return h;
+}
+$('#p-result').addEventListener('click',e=>{
+  if(e.target.closest('#p-new'))pNew();
+  else if(e.target.closest('#p-hist')){pRun++;pRenderHist();pView('history');window.scrollTo(0,0);}
+});
+
+/* --- histórico e detalhe --- */
+function pRenderHist(){
+  const h=loadHist().slice().sort((a,b)=>b.ts-a.ts);
+  $('#p-hist-tbl').innerHTML=h.length?'<table><thead><tr><th>Data e horário</th><th>Trabalhador</th><th>Empresa</th><th>Área</th><th>Atividade</th><th>Resultado</th><th><span class="sr">Detalhes</span></th></tr></thead><tbody>'+
+    h.map(x=>{const w=wByName(x.w)||{};return '<tr class="row"><td>'+dateOf(x.ts)+'<div class="rd">'+timeOf(x.ts)+'</div></td><td><b>'+esc(x.w)+'</b><div class="rd">'+esc(x.reg||w.reg||'—')+'</div></td><td>'+esc(x.company||w.company||'—')+'</td><td>'+esc(x.front)+'</td><td>'+esc(x.act)+'</td><td>'+resBadge(x.apto)+'</td><td><button type="button" class="btn ghost mini" style="min-height:40px" data-ts="'+x.ts+'">Detalhes</button></td></tr>';}).join('')+'</tbody></table>'
+    :'<div class="empty">Nenhuma verificação registrada.</div>';
+}
+let pdTrigger=null;
+function pDetail(ts,trigger){
+  const x=loadHist().find(e=>String(e.ts)===String(ts));if(!x)return;
+  pdTrigger=trigger;
+  const w=wByName(x.w)||{};
+  const rows=[['Trabalhador',x.w],['Matrícula',x.reg||w.reg||'—'],['Empresa',x.company||w.company||'—'],['Área',x.front],['Atividade',x.act],['Consulta',dateOf(x.ts)+' às '+timeOf(x.ts)]];
+  let h='<div class="pd-res">'+(x.apto?'<span class="tag t-ok">'+IC.ok+'APTO — Acesso autorizado</span>':'<span class="tag t-abs">'+IC.bad+'NÃO APTO — Acesso não autorizado</span>')+'</div>'+
+    '<dl class="m-dl">'+rows.map(f=>'<div><dt>'+f[0]+'</dt><dd>'+esc(f[1])+'</dd></div>').join('')+'</dl>';
+  if(x.pend&&x.pend.length){
+    h+='<p class="pd-h">Motivo do bloqueio</p><ul class="pbl">'+x.pend.map(p=>{const i=p.lastIndexOf(' — ');return '<li><div class="l">'+tagBySt(p.slice(i+3))+'</div><div class="m"><b>'+esc(p.slice(0,i))+'</b></div></li>';}).join('')+'</ul>';
+    const qs=loadReq().filter(q=>(q.scope===x.w||q.scope===x.front)&&x.pend.some(p=>p.indexOf(q.req+' — ')===0));
+    h+=qs.length?'<p class="pd-h">Solicitações registradas</p><ul class="pbl">'+qs.map(q=>'<li><div class="l">'+reqTag(q)+'</div><div class="m"><b>'+esc(q.req)+'</b><small>Enviada às '+timeOf(q.ts)+'. Não libera o acesso.</small></div></li>').join('')+'</ul>':'<p class="pnote">Nenhuma solicitação de regularização registrada.</p>';
+  }
+  const al=(x.alertDet&&x.alertDet.length)?x.alertDet:(x.alerts||[]);
+  if(al.length)h+='<p class="pd-h">Atenção</p><div class="pchips">'+al.map(t=>'<span class="pchip warn">'+IC.warn+esc(t)+'</span>').join('')+'</div>';
+  $('#pd-body').innerHTML=h;
+  $('#pd').hidden=false;$('#pd-close').focus();
+}
+function pdClose(){$('#pd').hidden=true;if(pdTrigger&&document.contains(pdTrigger))pdTrigger.focus();}
+$('#pd-close').addEventListener('click',pdClose);
+$('#pd').addEventListener('click',e=>{if(e.target===$('#pd'))pdClose();});
+$('#pd').addEventListener('keydown',e=>{
+  if(e.key==='Escape'){e.preventDefault();pdClose();}
+  if(e.key==='Tab'){const f=[...$('#pd').querySelectorAll('button')];const a=f[0],z=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus();}
+    else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();}}
+});
+$('#p-recent').addEventListener('click',e=>{const b=e.target.closest('[data-ts]');if(b)pDetail(b.dataset.ts,b);});
+$('#p-hist-tbl').addEventListener('click',e=>{const b=e.target.closest('[data-ts]');if(b)pDetail(b.dataset.ts,b);});
+$('#p-open-hist').addEventListener('click',()=>{pRenderHist();pView('history');window.scrollTo(0,0);});
+$('#p-back').addEventListener('click',()=>{pView('home');pRenderSide();window.scrollTo(0,0);});
+
+/* --- troca de modo --- */
+$('#btn-to-portaria').addEventListener('click',()=>enter('portaria'));
+$('#btn-to-sst').addEventListener('click',()=>enter('sst'));
+$('#btn-logout-sst').addEventListener('click',logout);
+$('#btn-logout-p').addEventListener('click',logout);
+$('#btn-seed').addEventListener('click',()=>{saveHist(makeSeed());renderHist();});
+
 /* ===================== INÍCIO ===================== */
 renderPickers();
 resetResult();
 updateNavCount();
+const hs=(location.hash||'').toLowerCase();
+if(hs==='#portaria')enter('portaria');else if(hs==='#sst')enter('sst');
 })();
 </script>
 </body>
