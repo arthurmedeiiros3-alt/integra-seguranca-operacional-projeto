@@ -96,3 +96,103 @@ Plano, roteiro de tarefas, ficha de observação, questionário e tabela de melh
 - Reavaliar os textos de status (APTO, ATENÇÃO, REQUISITO AUSENTE, DOCUMENTO VENCIDO) com a linguagem usada pelos técnicos.
 - Avaliar leitura de QR code ou crachá como alternativa à busca manual, se os participantes pedirem.
 - Definir o fluxo de baixa de pendência: quem confirma a regularização e como o resultado passa a APTO.
+
+---
+
+## Planejamento e gestao do projeto
+
+O desenvolvimento do INTEGRA utiliza Scrum, Kanban e GitFlow.
+
+### Gerenciamento de tarefas
+
+- Product Backlog com 10 historias de usuario.
+- Priorizacao pelo metodo MoSCoW.
+- Estimativa utilizando Story Points e escala Fibonacci.
+- Total planejado: 65 Story Points.
+- Tres sprints planejadas de duas semanas.
+
+### Planejamento das sprints
+
+| Sprint | Periodo | Story Points |
+|---|---|---:|
+| Sprint 1 | 18/11/2026 a 01/12/2026 | 13 |
+| Sprint 2 | 02/12/2026 a 15/12/2026 | 26 |
+| Sprint 3 | 16/12/2026 a 29/12/2026 | 26 |
+
+### Kanban e limites WIP
+
+| Coluna | Limite WIP |
+|---|---:|
+| Product Backlog | Sem limite |
+| Ready for Dev | Sem limite |
+| In Progress | 2 |
+| Code Review / QA | 3 |
+| Done | Sem limite |
+
+[Quadro de planejamento](https://github.com/users/arthurmedeiiros3-alt/projects/1)
+
+### Estrategia GitFlow
+
+- main: versao estavel.
+- develop: integracao de funcionalidades.
+- feature/*: desenvolvimento de funcionalidades.
+- release/*: preparacao de futuras versoes.
+- hotfix/*: futuras correcoes emergenciais.
+- Pull Requests para integracao e verificacao automatizada.
+
+### Testes automatizados
+
+Requisito: Node.js 24.
+
+Para executar os testes:
+
+```bash
+npm test
+```
+
+Foram implementados 10 testes unitarios do motor de verificacao, cobrindo:
+
+- Documentos ausentes, validos e vencidos.
+- Documentos proximos do vencimento.
+- Classificacao APTO e NAO APTO.
+- Bloqueios por requisitos obrigatorios.
+- Alertas de vencimento.
+- Requisitos da frente de trabalho.
+
+Resultado local na branch main: 10 aprovados e 0 falhas.
+
+Os testes utilizam as funcoes reais do motor de verificacao
+com dados e auxiliares controlados.
+
+### Integracao continua - CI
+
+O GitHub Actions executa automaticamente os testes
+em pushes e Pull Requests nas branches configuradas.
+
+Validacao realizada:
+
+- Pipeline de push: aprovado.
+- Pipeline de Pull Request: aprovado.
+- Testes na branch main: aprovados.
+
+### Evidencias
+
+- [Pull Request 11](https://github.com/arthurmedeiiros3-alt/integra-seguranca-operacional-projeto/pull/11)
+- [Pull Request 12](https://github.com/arthurmedeiiros3-alt/integra-seguranca-operacional-projeto/pull/12)
+- [GitHub Actions](https://github.com/arthurmedeiiros3-alt/integra-seguranca-operacional-projeto/actions)
+
+### Limitacoes e evolucao futura
+
+A versao atual e uma prova de conceito funcional em HTML,
+CSS e JavaScript, com armazenamento local no navegador.
+
+A autenticacao segura, o banco de dados, a API REST,
+a documentacao OpenAPI/Swagger e os testes de seguranca
+sao etapas futuras de desenvolvimento.
+
+Os testes atuais validam a logica de verificacao,
+mas nao substituem testes de interface, carga ou seguranca.
+
+A revisao independente por outro desenvolvedor
+e a validacao com usuarios reais permanecem pendentes.
+
